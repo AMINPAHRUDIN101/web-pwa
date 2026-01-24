@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Aplikasi Pertamaku</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2196f3">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <h1>Hayy cantiik 👋</h1>
+  <p>selamat ulang tahun ya sayang smoga tambah usia tambah berkah dan smoga apa yg kmu smogakan cepat teraemogakan amiiin.</p>
+
+  <button onclick="alert('Berhasil!')">
+    Klik ayang
+  </button>
+
+  <!-- SERVICE WORKER (WAJIB DI SINI) -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("Service Worker aktif"))
+        .catch(err => console.log("SW gagal:", err));
+    }
+  </script>
+
+</body>
+</html>
