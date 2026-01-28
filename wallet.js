@@ -69,3 +69,34 @@ function renderRiwayat() {
 function logout() {
   location.reload();
 }
+function kirimSaldo() {
+  const tujuan = document.getElementById("tujuan").value;
+  const nominal = parseInt(document.getElementById("kirimNominal").value);
+
+  if (!tujuan) {
+    alert("Masukkan tujuan");
+    return;
+  }
+
+  if (!nominal || nominal <= 0) {
+    alert("Nominal tidak valid");
+    return;
+  }
+
+  if (nominal > saldo) {
+    alert("Saldo tidak cukup");
+    return;
+  }
+
+  saldo -= nominal;
+  localStorage.setItem("saldo", saldo);
+
+  riwayat.push(`Kirim Rp ${nominal} ke ${tujuan}`);
+  localStorage.setItem("riwayat", JSON.stringify(riwayat));
+
+  document.getElementById("saldo").innerText = saldo;
+  renderRiwayat();
+
+  document.getElementById("tujuan").value = "";
+  document.getElementById("kirimNominal").value = "";
+}
