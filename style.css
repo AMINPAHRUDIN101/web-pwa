@@ -1,19 +1,56 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f2f2f2;
+  font-family: 'Poppins', sans-serif;
+  background: #f0f2f5;
   text-align: center;
-  padding-top: 50px;
 }
 
-h1 {
-  color: #333;
+.wallet {
+  background: #fff;
+  padding: 20px;
+  margin: 30px auto;
+  width: 95%;
+  max-width: 400px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
-button {
-  background: #2196f3;
-  color: white;
+.card-saldo {
+  background: linear-gradient(90deg, #4f46e5, #6366f1);
+  color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.card-saldo h1 {
+  margin: 10px 0 0 0;
+  font-size: 28px;
+}
+
+.actions .action {
+  margin-bottom: 15px;
+}
+
+.actions input, .actions button {
+  width: 45%;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}
+
+.actions button {
+  background: #4f46e5;
+  color: #fff;
   border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 16px;
+}
+
+button.logout {
+  background: #ef4444;
+  width: 90%;
+  margin-top: 20px;
+}
+
+#qrcode {
+  margin-top: 20px;
 }
