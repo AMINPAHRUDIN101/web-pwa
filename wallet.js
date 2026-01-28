@@ -150,3 +150,19 @@ function showTab(id) {
   document.querySelectorAll(".bottom-nav button").forEach(b => b.classList.remove("active"));
   event.currentTarget.classList.add("active");
 }
+let saldoVisible = true;
+
+function toggleSaldo() {
+  const saldoEl = document.getElementById("saldo");
+  const eyeBtn = document.querySelector(".eye");
+
+  if (saldoVisible) {
+    saldoEl.innerText = "•••••";
+    eyeBtn.innerText = "🙈";
+  } else {
+    saldoEl.innerText = saldo;
+    eyeBtn.innerText = "👁️";
+  }
+
+  saldoVisible = !saldoVisible;
+}
