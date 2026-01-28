@@ -20,9 +20,12 @@
   <!-- WALLET -->
   <div class="wallet hidden" id="wallet">
 
-    <header class="topbar">
-      <h1>Ex Official</h1>
-    </header>
+  <header class="topbar">
+    <h1>Ex Official</h1>
+  </header>
+
+  <!-- HOME -->
+  <div id="home" class="tab active">
 
     <section class="saldo-card">
       <p>Saldo Anda</p>
@@ -41,28 +44,49 @@
     </section>
 
     <section class="card">
+      <h3>Riwayat Transaksi</h3>
+      <ul id="riwayat"></ul>
+    </section>
+
+  </div>
+
+  <!-- QR -->
+  <div id="qr" class="tab">
+
+    <section class="card">
       <input type="number" id="qrNominal" placeholder="Nominal Bayar QR">
       <button onclick="generateQR()">Buat QR</button>
       <div id="qrcode"></div>
     </section>
-<section class="card">
-  <h3>Scan QR</h3>
-  <div id="reader" style="width:100%"></div>
-  <button onclick="startScan()">Mulai Scan</button>
-</section>
+
     <section class="card">
-      <h3>Riwayat Transaksi</h3>
-      <ul id="riwayat"></ul>
+      <h3>Scan QR</h3>
+      <div id="reader" style="width:100%"></div>
+      <button onclick="startScan()">Mulai Scan</button>
     </section>
-<section class="card">
-  <h3>Ganti PIN</h3>
-  <input type="password" id="pinLama" placeholder="PIN Lama" maxlength="4">
-  <input type="password" id="pinBaru" placeholder="PIN Baru" maxlength="4">
-  <button onclick="gantiPIN()">Simpan PIN Baru</button>
-</section>
+
+  </div>
+
+  <!-- PROFILE -->
+  <div id="profile" class="tab">
+
+    <section class="card">
+      <h3>Ganti PIN</h3>
+      <input type="password" id="pinLama" placeholder="PIN Lama" maxlength="4">
+      <input type="password" id="pinBaru" placeholder="PIN Baru" maxlength="4">
+      <button onclick="gantiPIN()">Simpan PIN Baru</button>
+    </section>
+
     <button class="logout" onclick="logout()">Keluar</button>
 
   </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button onclick="showTab('home')" class="active">🏠<span>Home</span></button>
+    <button onclick="showTab('qr')">📷<span>QR</span></button>
+    <button onclick="showTab('profile')">👤<span>Profil</span></button>
+  </nav>
 
 </div>
 
