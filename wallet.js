@@ -115,3 +115,15 @@ function showTab(id) {
     .forEach(b => b.classList.remove("active"));
   event.currentTarget.classList.add("active");
 }
+function loginFingerprint() {
+  // simulasi fingerprint (delay biar terasa real)
+  setTimeout(() => {
+    localStorage.setItem("autoLogin", "true");
+
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("wallet").classList.remove("hidden");
+
+    loadData();
+    alert("Login sidik jari berhasil");
+  }, 800);
+}
