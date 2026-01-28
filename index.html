@@ -15,6 +15,38 @@
 </div>
 
 <div class="wallet hidden" id="wallet">
+  <h2>Dompet Digital</h2>
+
+  <div class="card-saldo">
+    <p>Saldo Anda</p>
+    <h1>Rp <span id="saldo">0</span></h1>
+  </div>
+
+  <div class="actions">
+    <div class="action">
+      <input type="number" id="nominal" placeholder="Nominal Top Up">
+      <button onclick="topUp()">Top Up</button>
+    </div>
+
+    <div class="action">
+      <input type="text" id="tujuan" placeholder="Tujuan Kirim">
+      <input type="number" id="kirimNominal" placeholder="Nominal Kirim">
+      <button onclick="kirimSaldo()">Kirim</button>
+    </div>
+
+    <div class="action">
+      <input type="number" id="qrNominal" placeholder="Nominal Bayar QR">
+      <button onclick="generateQR()">Buat QR</button>
+    </div>
+  </div>
+
+  <h3>Riwayat Transaksi</h3>
+  <ul id="riwayat"></ul>
+
+  <button class="logout" onclick="logout()">Keluar</button>
+
+  <div id="qrcode" class="qrcode"></div>
+</div>
   <h2>Saldo Anda</h2>
   <div class="saldo">Rp <span id="saldo">0</span></div>
 
