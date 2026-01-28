@@ -1,5 +1,3 @@
-const PIN = "1234";
-
 let saldo = 0;
 let riwayat = [];
 
@@ -114,4 +112,36 @@ function gantiPIN() {
 
   alert("PIN berhasil diganti");
 }
+let qrScanner;
 
+function startScan() {
+  if (!qrScanner) {
+    qrScanner = new Html5Qrcode("reader");
+  }
+
+  qrScanner.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 250 },
+    (decodedText) => {
+      qrScanner.stop();
+      prosesQR(decodedText);
+    },
+    (error) => {}
+  );
+}
+
+function prosesQR(data) {
+  // Contoh data: "QR Rp 5000"
+  const angka = data.replace(/\D/g, "");
+  const nominal = Number(angka);
+
+  if (nominal > 0 && nominal <= saldo) {
+    saldo -= nominal;
+    updateSaldo();
+    addRiwayat("Bayar QR Rp " + nominal);
+    saveData();
+    alert("Pembayaran QR Rp " + nominal + " berhasil");
+  } else {
+    alert("Saldo tidak cukup / QR tidak valid");
+  }
+}
