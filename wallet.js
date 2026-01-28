@@ -121,3 +121,11 @@ function showTab(id) {
 
   event.currentTarget.classList.add("active");
 }
+window.addEventListener("load", () => {
+  const splash = document.getElementById("splash");
+  if (splash) {
+    setTimeout(() => {
+      splash.style.display = "none";
+    }, 1200); // 1.2 detik
+  }
+});
