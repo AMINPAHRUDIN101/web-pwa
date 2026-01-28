@@ -1,11 +1,33 @@
-let saldo = 0;
 const PIN = "1234";
 
+let saldo = 0;
+let riwayat = [];
+
+/* ===== LOAD DATA ===== */
+function loadData() {
+  const savedSaldo = localStorage.getItem("saldo");
+  const savedRiwayat = localStorage.getItem("riwayat");
+
+  saldo = savedSaldo ? Number(savedSaldo) : 0;
+  riwayat = savedRiwayat ? JSON.parse(savedRiwayat) : [];
+
+  updateSaldo();
+  renderRiwayat();
+}
+
+/* ===== SAVE DATA ===== */
+function saveData() {
+  localStorage.setItem("saldo", saldo);
+  localStorage.setItem("riwayat", JSON.stringify(riwayat));
+}
+
+/* ===== LOGIN ===== */
 function login() {
   const pin = document.getElementById("pinInput").value;
   if (pin === PIN) {
     document.getElementById("login").classList.add("hidden");
     document.getElementById("wallet").classList.remove("hidden");
+    loadData();
   } else {
     alert("PIN salah");
   }
@@ -16,22 +38,35 @@ function logout() {
   document.getElementById("login").classList.remove("hidden");
 }
 
+/* ===== UI UPDATE ===== */
 function updateSaldo() {
   document.getElementById("saldo").innerText = saldo;
 }
 
-function addRiwayat(text) {
-  const li = document.createElement("li");
-  li.innerText = text;
-  document.getElementById("riwayat").prepend(li);
+function renderRiwayat() {
+  const ul = document.getElementById("riwayat");
+  ul.innerHTML = "";
+  riwayat.forEach(item => {
+    const li = document.createElement("li");
+    li.innerText = item;
+    ul.appendChild(li);
+  });
 }
 
+function addRiwayat(text) {
+  riwayat.unshift(text);
+  saveData();
+  renderRiwayat();
+}
+
+/* ===== FITUR ===== */
 function topUp() {
   const nominal = Number(document.getElementById("nominal").value);
   if (nominal > 0) {
     saldo += nominal;
     updateSaldo();
     addRiwayat("Top Up Rp " + nominal);
+    saveData();
   }
 }
 
@@ -43,6 +78,7 @@ function kirimSaldo() {
     saldo -= nominal;
     updateSaldo();
     addRiwayat("Kirim Rp " + nominal + " ke " + tujuan);
+    saveData();
   } else {
     alert("Saldo tidak cukup");
   }
@@ -53,19 +89,3 @@ function generateQR() {
   document.getElementById("qrcode").innerHTML =
     "<div style='padding:10px;border:1px dashed #999'>QR Rp " + nominal + "</div>";
 }
-  QRCode.toCanvas(qrContainer, qrData, function (error) {
-    if (error) console.error(error);
-    else {
-      alert("QR siap di-scan (simulasi)");
-      // Potong saldo otomatis
-      saldo -= nominal;
-      localStorage.setItem("saldo", saldo);
-      riwayat.push(`Bayar Rp ${nominal} via QR`);
-      localStorage.setItem("riwayat", JSON.stringify(riwayat));
-      document.getElementById("saldo").innerText = saldo;
-      renderRiwayat();
-      document.getElementById("qrNominal").value = "";
-    }
-  });
-}
-
