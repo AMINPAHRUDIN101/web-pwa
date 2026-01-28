@@ -24,7 +24,9 @@ function saveData() {
 /* ===== LOGIN ===== */
 function login() {
   const pin = document.getElementById("pinInput").value;
-  if (pin === PIN) {
+  const pinTersimpan = localStorage.getItem("pin") || "1234";
+
+  if (pin === pinTersimpan) {
     document.getElementById("login").classList.add("hidden");
     document.getElementById("wallet").classList.remove("hidden");
     loadData();
