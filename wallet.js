@@ -89,3 +89,27 @@ function generateQR() {
   document.getElementById("qrcode").innerHTML =
     "<div style='padding:10px;border:1px dashed #999'>QR Rp " + nominal + "</div>";
 }
+function gantiPIN() {
+  const lama = document.getElementById("pinLama").value;
+  const baru = document.getElementById("pinBaru").value;
+
+  const pinSekarang = localStorage.getItem("pin") || "1234";
+
+  if (lama !== pinSekarang) {
+    alert("PIN lama salah");
+    return;
+  }
+
+  if (baru.length !== 4 || isNaN(baru)) {
+    alert("PIN baru harus 4 angka");
+    return;
+  }
+
+  localStorage.setItem("pin", baru);
+
+  document.getElementById("pinLama").value = "";
+  document.getElementById("pinBaru").value = "";
+
+  alert("PIN berhasil diganti");
+}
+
