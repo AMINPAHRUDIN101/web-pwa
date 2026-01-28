@@ -15,11 +15,24 @@
 <div class="app">
 
   <!-- LOGIN -->
-  <div class="login" id="login">
-    <h2>Masukkan PIN</h2>
-    <input type="password" id="pinInput" maxlength="4" placeholder="****">
-    <button onclick="login()">Masuk</button>
-  </div>
+<div class="login" id="login">
+  <h2>Masukkan PIN</h2>
+
+  <input
+    type="password"
+    id="pinInput"
+    maxlength="4"
+    placeholder="****"
+    inputmode="numeric"
+  >
+
+  <button onclick="login()">Masuk</button>
+
+  <!-- LOGIN FINGERPRINT (SIMULASI) -->
+  <button class="finger" onclick="loginFingerprint()">
+    🔐 Login dengan Sidik Jari
+  </button>
+</div>
 
   <!-- WALLET -->
   <div class="wallet hidden" id="wallet">
