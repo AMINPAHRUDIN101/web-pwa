@@ -1,13 +1,21 @@
 /* ===== KONFIGURASI AWAL ===== */
 const DEFAULT_PIN = "1234";
 
-/* ===== AUTO LOGIN ===== */
-window.onload = () => {
-  const loggedIn = localStorage.getItem("loggedIn");
-  if (loggedIn === "true") {
-    showWallet();
-  }
-};
+/* ===== STATE ===== */
+let saldo = Number(localStorage.getItem("saldo")) || 0;
+let saldoVisible = true;
+
+/* ===== AUTO LOGIN + SPLASH ===== */
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const splash = document.getElementById("splash");
+    if (splash) splash.style.display = "none";
+
+    if (localStorage.getItem("loggedIn") === "true") {
+      showWallet();
+    }
+  }, 1200);
+});
 
 /* ===== LOGIN PIN ===== */
 function login() {
@@ -24,17 +32,18 @@ function login() {
 
 /* ===== LOGIN FINGERPRINT (SIMULASI) ===== */
 function loginFingerprint() {
-  const ok = confirm("Gunakan sidik jari?");
-  if (ok) {
+  setTimeout(() => {
     localStorage.setItem("loggedIn", "true");
     showWallet();
-  }
+    alert("Login sidik jari berhasil");
+  }, 800);
 }
 
 /* ===== TAMPILKAN WALLET ===== */
 function showWallet() {
   document.getElementById("login").classList.add("hidden");
   document.getElementById("wallet").classList.remove("hidden");
+  updateSaldo();
 }
 
 /* ===== LOGOUT ===== */
@@ -44,11 +53,6 @@ function logout() {
 }
 
 /* ===== SALDO ===== */
-let saldo = Number(localStorage.getItem("saldo")) || 0;
-let saldoVisible = true;
-
-updateSaldo();
-
 function updateSaldo() {
   document.getElementById("saldo").textContent =
     saldoVisible ? saldo.toLocaleString("id-ID") : "•••••";
@@ -64,6 +68,7 @@ function toggleSaldo() {
 function topUp() {
   const nominal = Number(document.getElementById("nominal").value);
   if (!nominal) return alert("Masukkan nominal");
+
   saldo += nominal;
   tambahRiwayat("Top Up", nominal);
   updateSaldo();
@@ -106,24 +111,13 @@ function gantiPIN() {
   document.getElementById("pinBaru").value = "";
 }
 
-/* ===== TAB ===== */
+/* ===== TAB NAV ===== */
 function showTab(id) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 
   document.querySelectorAll(".bottom-nav button")
     .forEach(b => b.classList.remove("active"));
+
   event.currentTarget.classList.add("active");
-}
-function loginFingerprint() {
-  // simulasi fingerprint (delay biar terasa real)
-  setTimeout(() => {
-    localStorage.setItem("autoLogin", "true");
-
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("wallet").classList.remove("hidden");
-
-    loadData();
-    alert("Login sidik jari berhasil");
-  }, 800);
 }
