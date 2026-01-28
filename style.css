@@ -1,74 +1,77 @@
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", system-ui, sans-serif;
 }
 
 body {
-  background: #f2f4f7;
+  margin: 0;
+  background: #f4f6fb;
+  color: #222;
+}
+
+.hidden {
+  display: none;
 }
 
 .app {
   max-width: 420px;
   margin: auto;
-  padding: 16px;
+  min-height: 100vh;
 }
 
-/* LOGIN */
+/* ===== LOGIN ===== */
 .login {
-  margin-top: 100px;
-  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
   padding: 24px;
-  border-radius: 16px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.login h2 {
+  margin-bottom: 20px;
 }
 
 .login input {
-  width: 100%;
   padding: 14px;
   font-size: 18px;
   text-align: center;
-  margin: 16px 0;
   border-radius: 12px;
   border: 1px solid #ddd;
+  margin-bottom: 16px;
 }
 
 .login button {
-  width: 100%;
   padding: 14px;
   border-radius: 12px;
   border: none;
-  background: #008cff;
-  color: white;
+  background: #1e88e5;
+  color: #fff;
   font-size: 16px;
 }
 
-/* WALLET */
-.hidden {
-  display: none;
-}
-
+/* ===== TOP BAR ===== */
 .topbar {
-  background: linear-gradient(135deg, #008cff, #00c6ff);
+  background: linear-gradient(135deg, #1e88e5, #1565c0);
   color: white;
-  padding: 20px;
-  border-radius: 16px;
+  padding: 18px;
   text-align: center;
-  margin-bottom: 16px;
+  font-size: 18px;
 }
 
+/* ===== SALDO CARD ===== */
 .saldo-card {
-  background: white;
+  margin: 16px;
   padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  margin-bottom: 16px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #42a5f5, #1e88e5);
+  color: white;
 }
 
 .saldo-card p {
-  color: #888;
+  margin: 0;
+  opacity: 0.9;
 }
 
 .saldo-card h2 {
@@ -76,42 +79,66 @@ body {
   font-size: 28px;
 }
 
+/* ===== CARD ===== */
 .card {
   background: white;
+  margin: 14px 16px;
   padding: 16px;
   border-radius: 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .card input {
   width: 100%;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid #ddd;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  font-size: 15px;
 }
 
 .card button {
   width: 100%;
   padding: 12px;
-  border-radius: 10px;
-  border: none;
-  background: #008cff;
-  color: white;
-}
-
-.logout {
-  margin-top: 16px;
-  width: 100%;
-  padding: 14px;
   border-radius: 12px;
   border: none;
-  background: #ff4d4d;
+  background: #1e88e5;
   color: white;
+  font-size: 15px;
 }
 
+/* ===== RIWAYAT ===== */
+#riwayat {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#riwayat li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* ===== QR ===== */
 #qrcode {
   margin-top: 10px;
   text-align: center;
+}
+
+/* ===== LOGOUT ===== */
+.logout {
+  margin: 20px 16px 30px;
+  width: calc(100% - 32px);
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: #e53935;
+  color: white;
+  font-size: 16px;
 }
