@@ -100,3 +100,35 @@ function kirimSaldo() {
   document.getElementById("tujuan").value = "";
   document.getElementById("kirimNominal").value = "";
 }
+function generateQR() {
+  const nominal = parseInt(document.getElementById("qrNominal").value);
+  if (!nominal || nominal <= 0) {
+    alert("Nominal tidak valid");
+    return;
+  }
+
+  if (nominal > saldo) {
+    alert("Saldo tidak cukup");
+    return;
+  }
+
+  const qrData = `BAYAR|${nominal}`;
+  const qrContainer = document.getElementById("qrcode");
+  qrContainer.innerHTML = ""; // kosongkan QR lama
+
+  QRCode.toCanvas(qrContainer, qrData, function (error) {
+    if (error) console.error(error);
+    else {
+      alert("QR siap di-scan (simulasi)");
+      // Potong saldo otomatis
+      saldo -= nominal;
+      localStorage.setItem("saldo", saldo);
+      riwayat.push(`Bayar Rp ${nominal} via QR`);
+      localStorage.setItem("riwayat", JSON.stringify(riwayat));
+      document.getElementById("saldo").innerText = saldo;
+      renderRiwayat();
+      document.getElementById("qrNominal").value = "";
+    }
+  });
+}
+
