@@ -1,59 +1,58 @@
-/* ===== STATE ===== */
-let saldo = 0;
-let riwayat = [];
-let saldoVisible = true;
-let qrScanner;
-
-/* ===== LOAD & SAVE ===== */
-function loadData() {
-  const savedSaldo = localStorage.getItem("saldo");
-  const savedRiwayat = localStorage.getItem("riwayat");
-
-  saldo = savedSaldo ? Number(savedSaldo) : 0;
-  riwayat = savedRiwayat ? JSON.parse(savedRiwayat) : [];
-
-  updateSaldo();
-  renderRiwayat();
-}
-
-function saveData() {
-  localStorage.setItem("saldo", saldo);
-  localStorage.setItem("riwayat", JSON.stringify(riwayat));
-}
+/* ===== KONFIGURASI AWAL ===== */
+const DEFAULT_PIN = "1234";
 
 /* ===== AUTO LOGIN ===== */
-function checkAutoLogin() {
-  if (localStorage.getItem("loggedIn") === "true") {
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("wallet").classList.remove("hidden");
-    loadData();
+window.onload = () => {
+  const loggedIn = localStorage.getItem("loggedIn");
+  if (loggedIn === "true") {
+    showWallet();
   }
-}
+};
 
-/* ===== LOGIN / LOGOUT ===== */
+/* ===== LOGIN PIN ===== */
 function login() {
-  const pin = document.getElementById("pinInput").value;
-  const pinTersimpan = localStorage.getItem("pin") || "1234";
+  const input = document.getElementById("pinInput").value;
+  const pin = localStorage.getItem("pin") || DEFAULT_PIN;
 
-  if (pin === pinTersimpan) {
+  if (input === pin) {
     localStorage.setItem("loggedIn", "true");
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("wallet").classList.remove("hidden");
-    loadData();
+    showWallet();
   } else {
     alert("PIN salah");
   }
 }
 
-function logout() {
-  localStorage.removeItem("loggedIn");
-  document.getElementById("wallet").classList.add("hidden");
-  document.getElementById("login").classList.remove("hidden");
+/* ===== LOGIN FINGERPRINT (SIMULASI) ===== */
+function loginFingerprint() {
+  const ok = confirm("Gunakan sidik jari?");
+  if (ok) {
+    localStorage.setItem("loggedIn", "true");
+    showWallet();
+  }
 }
 
-/* ===== UI ===== */
+/* ===== TAMPILKAN WALLET ===== */
+function showWallet() {
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("wallet").classList.remove("hidden");
+}
+
+/* ===== LOGOUT ===== */
+function logout() {
+  localStorage.removeItem("loggedIn");
+  location.reload();
+}
+
+/* ===== SALDO ===== */
+let saldo = Number(localStorage.getItem("saldo")) || 0;
+let saldoVisible = true;
+
+updateSaldo();
+
 function updateSaldo() {
-  document.getElementById("saldo").innerText = saldoVisible ? saldo : "••••";
+  document.getElementById("saldo").textContent =
+    saldoVisible ? saldo.toLocaleString("id-ID") : "•••••";
+  localStorage.setItem("saldo", saldo);
 }
 
 function toggleSaldo() {
@@ -61,118 +60,58 @@ function toggleSaldo() {
   updateSaldo();
 }
 
-function renderRiwayat() {
-  const ul = document.getElementById("riwayat");
-  ul.innerHTML = "";
-  riwayat.forEach(item => {
-    const li = document.createElement("li");
-    li.innerText = item;
-    ul.appendChild(li);
-  });
-}
-
-function addRiwayat(text) {
-  riwayat.unshift(text);
-  saveData();
-  renderRiwayat();
-}
-
-/* ===== FITUR ===== */
+/* ===== TOP UP ===== */
 function topUp() {
   const nominal = Number(document.getElementById("nominal").value);
-  if (nominal > 0) {
-    saldo += nominal;
-    updateSaldo();
-    addRiwayat("Top Up Rp " + nominal);
-    saveData();
-  }
+  if (!nominal) return alert("Masukkan nominal");
+  saldo += nominal;
+  tambahRiwayat("Top Up", nominal);
+  updateSaldo();
 }
 
+/* ===== KIRIM SALDO ===== */
 function kirimSaldo() {
   const tujuan = document.getElementById("tujuan").value;
   const nominal = Number(document.getElementById("kirimNominal").value);
 
-  if (nominal > 0 && nominal <= saldo) {
-    saldo -= nominal;
-    updateSaldo();
-    addRiwayat("Kirim Rp " + nominal + " ke " + tujuan);
-    saveData();
-  } else {
-    alert("Saldo tidak cukup");
-  }
+  if (!tujuan || !nominal) return alert("Lengkapi data");
+  if (nominal > saldo) return alert("Saldo tidak cukup");
+
+  saldo -= nominal;
+  tambahRiwayat("Kirim ke " + tujuan, nominal);
+  updateSaldo();
 }
 
-/* ===== QR ===== */
-function generateQR() {
-  const nominal = document.getElementById("qrNominal").value;
-  document.getElementById("qrcode").innerHTML =
-    "<div style='padding:10px;border:1px dashed #999'>QR Rp " + nominal + "</div>";
+/* ===== RIWAYAT ===== */
+function tambahRiwayat(text, nominal) {
+  const ul = document.getElementById("riwayat");
+  const li = document.createElement("li");
+  li.textContent = `${text} - Rp ${nominal.toLocaleString("id-ID")}`;
+  ul.prepend(li);
 }
 
-function startScan() {
-  if (!qrScanner) {
-    qrScanner = new Html5Qrcode("reader");
-  }
-
-  qrScanner.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: 250 },
-    (decodedText) => {
-      qrScanner.stop();
-      prosesQR(decodedText);
-    },
-    () => {}
-  );
-}
-
-function prosesQR(data) {
-  const angka = data.replace(/\D/g, "");
-  const nominal = Number(angka);
-
-  if (nominal > 0 && nominal <= saldo) {
-    saldo -= nominal;
-    updateSaldo();
-    addRiwayat("Bayar QR Rp " + nominal);
-    saveData();
-    alert("Pembayaran berhasil");
-  } else {
-    alert("Saldo tidak cukup / QR tidak valid");
-  }
-}
-
-/* ===== PIN ===== */
+/* ===== GANTI PIN ===== */
 function gantiPIN() {
   const lama = document.getElementById("pinLama").value;
   const baru = document.getElementById("pinBaru").value;
-  const pinSekarang = localStorage.getItem("pin") || "1234";
+  const pinSekarang = localStorage.getItem("pin") || DEFAULT_PIN;
 
-  if (lama !== pinSekarang) {
-    alert("PIN lama salah");
-    return;
-  }
-  if (baru.length !== 4 || isNaN(baru)) {
-    alert("PIN baru harus 4 angka");
-    return;
-  }
+  if (lama !== pinSekarang) return alert("PIN lama salah");
+  if (baru.length !== 4 || isNaN(baru)) return alert("PIN baru harus 4 angka");
 
   localStorage.setItem("pin", baru);
+  alert("PIN berhasil diganti");
+
   document.getElementById("pinLama").value = "";
   document.getElementById("pinBaru").value = "";
-  alert("PIN berhasil diganti");
 }
 
 /* ===== TAB ===== */
 function showTab(id) {
-  document.querySelectorAll(".tab").forEach(tab =>
-    tab.classList.remove("active")
-  );
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 
-  document.querySelectorAll(".bottom-nav button").forEach(btn =>
-    btn.classList.remove("active")
-  );
-  event.target.closest("button").classList.add("active");
+  document.querySelectorAll(".bottom-nav button")
+    .forEach(b => b.classList.remove("active"));
+  event.currentTarget.classList.add("active");
 }
-
-/* ===== INIT ===== */
-document.addEventListener("DOMContentLoaded", checkAutoLogin);
