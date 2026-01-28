@@ -1,14 +1,14 @@
 {
-  "name": "Aplikasi Pertamaku",
-  "short_name": "AppKu",
+  "name": "Ex Official Wallet",
+  "short_name": "Ex Wallet",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2196f3",
+  "background_color": "#1e88e5",
+  "theme_color": "#1e88e5",
   "icons": [
     {
-      "src": "icon.png",
-      "sizes": "192x192",
+      "src": "logo.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
