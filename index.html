@@ -2,75 +2,59 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <title>Ex Official Wallet</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dompet Digital</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="login" id="login">
-  <h2>Masukkan PIN</h2>
-  <input type="password" id="pinInput" maxlength="4" placeholder="****">
-  <button onclick="login()">Masuk</button>
-</div>
+<div class="app">
 
-<div class="wallet hidden" id="wallet">
-  <h2>Dompet Digital</h2>
-
-  <div class="card-saldo">
-    <p>Saldo Anda</p>
-    <h1>Rp <span id="saldo">0</span></h1>
+  <!-- LOGIN -->
+  <div class="login" id="login">
+    <h2>Masukkan PIN</h2>
+    <input type="password" id="pinInput" maxlength="4" placeholder="****">
+    <button onclick="login()">Masuk</button>
   </div>
 
-  <div class="actions">
-    <div class="action">
+  <!-- WALLET -->
+  <div class="wallet hidden" id="wallet">
+
+    <header class="topbar">
+      <h1>Ex Official</h1>
+    </header>
+
+    <section class="saldo-card">
+      <p>Saldo Anda</p>
+      <h2>Rp <span id="saldo">0</span></h2>
+    </section>
+
+    <section class="card">
       <input type="number" id="nominal" placeholder="Nominal Top Up">
       <button onclick="topUp()">Top Up</button>
-    </div>
+    </section>
 
-    <div class="action">
+    <section class="card">
       <input type="text" id="tujuan" placeholder="Tujuan Kirim">
       <input type="number" id="kirimNominal" placeholder="Nominal Kirim">
-      <button onclick="kirimSaldo()">Kirim</button>
-    </div>
+      <button onclick="kirimSaldo()">Kirim Saldo</button>
+    </section>
 
-    <div class="action">
+    <section class="card">
       <input type="number" id="qrNominal" placeholder="Nominal Bayar QR">
       <button onclick="generateQR()">Buat QR</button>
-    </div>
+      <div id="qrcode"></div>
+    </section>
+
+    <section class="card">
+      <h3>Riwayat Transaksi</h3>
+      <ul id="riwayat"></ul>
+    </section>
+
+    <button class="logout" onclick="logout()">Keluar</button>
+
   </div>
 
-  <h3>Riwayat Transaksi</h3>
-  <ul id="riwayat"></ul>
-
-  <button class="logout" onclick="logout()">Keluar</button>
-
-  <div id="qrcode" class="qrcode"></div>
-</div>
-  <h2>Saldo Anda</h2>
-  <div class="saldo">Rp <span id="saldo">0</span></div>
-
-  <input type="number" id="nominal" placeholder="Nominal top up">
-  <button onclick="topUp()">Top Up</button>
-
-  <h3>Kirim Saldo</h3>
-<input type="text" id="tujuan" placeholder="Nama / ID Tujuan">
-<input type="number" id="kirimNominal" placeholder="Nominal kirim">
-<button onclick="kirimSaldo()">Kirim</button>
-
-<h3>Kirim Saldo</h3>
-<input type="text" id="tujuan" placeholder="Nama / ID Tujuan">
-<input type="number" id="kirimNominal" placeholder="Nominal kirim">
-<button onclick="kirimSaldo()">Kirim</button>
-
-<h3>Riwayat</h3>
-<h<h3>Bayar via QR (simulasi)</h3>
-<input type="number" id="qrNominal" placeholder="Nominal bayar">
-<button onclick="generateQR()">Buat QR</button>
-<div id="qrcode"></div>
-<ul id="riwayat"></ul>
-
-  <button class="logout" onclick="logout()">Keluar</button>
 </div>
 
 <script src="wallet.js"></script>
