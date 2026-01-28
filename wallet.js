@@ -145,3 +145,13 @@ function prosesQR(data) {
     alert("Saldo tidak cukup / QR tidak valid");
   }
 }
+function showTab(id) {
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
+  });
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".bottom-nav button").forEach(btn => {
+    btn.classList.remove("active");
+  });
+     }
