@@ -1,20 +1,16 @@
-/* ===== KONFIGURASI AWAL ===== */
+/* ===== KONFIGURASI ===== */
 const DEFAULT_PIN = "1234";
 
-/* ===== STATE ===== */
-let saldo = Number(localStorage.getItem("saldo")) || 0;
-let saldoVisible = true;
-
-/* ===== AUTO LOGIN + SPLASH ===== */
+/* ===== SPLASH ===== */
 window.addEventListener("load", () => {
+  const splash = document.getElementById("splash");
   setTimeout(() => {
-    const splash = document.getElementById("splash");
     if (splash) splash.style.display = "none";
-
-    if (localStorage.getItem("loggedIn") === "true") {
-      showWallet();
-    }
   }, 1200);
+
+  if (localStorage.getItem("loggedIn") === "true") {
+    showWallet();
+  }
 });
 
 /* ===== LOGIN PIN ===== */
@@ -43,7 +39,6 @@ function loginFingerprint() {
 function showWallet() {
   document.getElementById("login").classList.add("hidden");
   document.getElementById("wallet").classList.remove("hidden");
-  updateSaldo();
 }
 
 /* ===== LOGOUT ===== */
@@ -53,11 +48,15 @@ function logout() {
 }
 
 /* ===== SALDO ===== */
+let saldo = Number(localStorage.getItem("saldo")) || 0;
+let saldoVisible = true;
+
 function updateSaldo() {
   document.getElementById("saldo").textContent =
     saldoVisible ? saldo.toLocaleString("id-ID") : "•••••";
   localStorage.setItem("saldo", saldo);
 }
+updateSaldo();
 
 function toggleSaldo() {
   saldoVisible = !saldoVisible;
@@ -68,13 +67,12 @@ function toggleSaldo() {
 function topUp() {
   const nominal = Number(document.getElementById("nominal").value);
   if (!nominal) return alert("Masukkan nominal");
-
   saldo += nominal;
   tambahRiwayat("Top Up", nominal);
   updateSaldo();
 }
 
-/* ===== KIRIM SALDO ===== */
+/* ===== KIRIM ===== */
 function kirimSaldo() {
   const tujuan = document.getElementById("tujuan").value;
   const nominal = Number(document.getElementById("kirimNominal").value);
@@ -99,10 +97,10 @@ function tambahRiwayat(text, nominal) {
 function gantiPIN() {
   const lama = document.getElementById("pinLama").value;
   const baru = document.getElementById("pinBaru").value;
-  const pinSekarang = localStorage.getItem("pin") || DEFAULT_PIN;
+  const pin = localStorage.getItem("pin") || DEFAULT_PIN;
 
-  if (lama !== pinSekarang) return alert("PIN lama salah");
-  if (baru.length !== 4 || isNaN(baru)) return alert("PIN baru harus 4 angka");
+  if (lama !== pin) return alert("PIN lama salah");
+  if (baru.length !== 4 || isNaN(baru)) return alert("PIN harus 4 angka");
 
   localStorage.setItem("pin", baru);
   alert("PIN berhasil diganti");
@@ -111,21 +109,8 @@ function gantiPIN() {
   document.getElementById("pinBaru").value = "";
 }
 
-/* ===== TAB NAV ===== */
+/* ===== TAB ===== */
 function showTab(id) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-
-  document.querySelectorAll(".bottom-nav button")
-    .forEach(b => b.classList.remove("active"));
-
-  event.currentTarget.classList.add("active");
 }
-window.addEventListener("load", () => {
-  const splash = document.getElementById("splash");
-  if (splash) {
-    setTimeout(() => {
-      splash.style.display = "none";
-    }, 1200); // 1.2 detik
-  }
-});
